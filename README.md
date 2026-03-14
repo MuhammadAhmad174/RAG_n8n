@@ -27,3 +27,10 @@ This repository contains exported **n8n workflows** in JSON format. Each workflo
 ## License
 
 This repository is for personal or organizational use. You can modify and share workflows freely.
+
+# RAG based Personal assistant
+
+This workflow handles searching candidate info using a vector store in n8n.
+
+![Workflow Screenshot](rag_n8n.png)
+
