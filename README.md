@@ -32,5 +32,5 @@ This repository is for personal or organizational use. You can modify and share 
 
 This workflow handles searching candidate info using a vector store in n8n.
 
-![Workflow Screenshot](rag_n8n.png)
+![Workflow Screenshot](rag1_n8n.png)
 
