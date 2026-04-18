@@ -1,0 +1,143 @@
+{
+  "name": "My workflow 4",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -160,
+        -16
+      ],
+      "id": "a4206337-ce71-4927-ac53-4085ddf14753",
+      "name": "Telegram Trigger",
+      "webhookId": "59208aa6-615f-4014-b928-3ef3b6b92be2",
+      "alwaysOutputData": false,
+      "notesInFlow": false,
+      "credentials": {
+        "telegramApi": {
+          "id": "4ntBZZlRPqaNyD5S",
+          "name": "Telegram account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=={{ $('Telegram Trigger').item.json.message.text }}",
+        "options": {
+          "systemMessage": "You are a professional language translator bot. Detect the language of the user's message and translate it to English if it's in any other language.Do not add any extra text, signatures, or notes. Return ONLY the translated text.\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        64,
+        -16
+      ],
+      "id": "0bac966b-b967-41a7-9996-017175fb5915",
+      "name": "AI Agent",
+      "retryOnFail": false,
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "reply_to_message_id": "={{ $('Telegram Trigger').item.json.message.message_id }}"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        416,
+        -16
+      ],
+      "id": "d3d00cc1-30a3-4d0a-8121-4afb8a80bd0a",
+      "name": "Send a text message",
+      "webhookId": "d500c79b-55b6-490b-a626-6f9450f1dd33",
+      "credentials": {
+        "telegramApi": {
+          "id": "4ntBZZlRPqaNyD5S",
+          "name": "Telegram account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-v3.2-exp",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        176
+      ],
+      "id": "84208d1f-9758-49e5-b578-a96f37829b03",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "tQPXG5uBlHIQTvNO",
+          "name": "OpenRouter account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "cf88ba88-88de-422b-81a0-0c45e947c6c3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a9320804029f6a5ad603e1128a3bb7ad6155d3092e54f9ac649c8b8f20d34636"
+  },
+  "id": "NmP1rx3oVvDbljFF",
+  "tags": []
+}
